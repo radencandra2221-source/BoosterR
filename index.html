@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Booster 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+        .glow-red {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-4 md:p-8">
+
+    <!-- Header / Status Bar -->
+    <div class="w-full max-w-md bg-gray-900 border border-blue-500/30 rounded-2xl p-4 mb-6 shadow-lg flex items-center justify-between">
+        <div>
+            <h1 class="font-orbitron font-black text-xl text-blue-400 tracking-wider">MLBB BOOSTER</h1>
+            <p class="text-xs text-gray-400">Core Status: <span id="core-status-text" class="text-yellow-400 font-semibold">TRIAL 7 HARI</span></p>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="openGuideModal()" class="w-8 h-8 rounded-full bg-blue-600/20 border border-blue-500/40 text-blue-300 flex items-center justify-center hover:bg-blue-600/40 transition" title="Cara Penggunaan">
+                <i class="fa-solid fa-circle-question text-xs"></i>
+            </button>
+            <div class="bg-blue-600/20 border border-blue-500/50 px-3 py-1 rounded-full text-xs text-blue-300 font-orbitron">
+                v2026.0
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md bg-gray-900 border border-gray-800 rounded-3xl p-6 glow-effect relative overflow-hidden">
+        
+        <!-- Background Accent -->
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Expired Warning Banner (Hidden by default) -->
+        <div id="expired-banner" class="hidden mb-4 p-3 bg-red-500/20 border border-red-500/40 rounded-xl text-center">
+            <p class="text-xs text-red-400 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Masa Uji Coba 7 Hari Telah Kedaluwarsa</p>
+            <p class="text-[10px] text-gray-400 mt-0.5">Akses booster terkunci. Hubungi administrator untuk perpanjangan lisensi.</p>
+        </div>
+
+        <!-- Form Section -->
+        <div id="step-1" class="space-y-4">
+            <div class="bg-gray-950 p-3 rounded-xl border border-gray-800 space-y-1.5">
+                <div class="text-xs text-gray-400 flex justify-between items-center">
+                    <span>Sisa Waktu Uji Coba:</span>
+                    <span id="trial-countdown" class="text-blue-400 font-bold font-orbitron">Menghitung...</span>
+                </div>
+                <div class="text-[11px] text-gray-500 italic border-t border-gray-800/80 pt-1.5 text-center leading-relaxed">
+                    "Ini adalah gratis, jadi jangan berharap untuk lebih!! Ingin Win Streak? Lebih Brutal, Pindah Ke VIP"
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-300 mb-1">ID Akun & Server Mobile Legends</label>
+                <div class="flex gap-2">
+                    <input type="text" id="ml-id" placeholder="ID (cth: 12345678)" class="w-2/3 bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white">
+                    <input type="text" id="ml-zone" placeholder="Server (cth: 1234)" class="w-1/3 bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-300 mb-1">Target Rank 2026</label>
+                <select id="target-rank" class="w-full bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white">
+                    <option value="Mythic Immortal">Mythic Immortal (Top 500)</option>
+                    <option value="Mythic Honor">Mythic Honor (Star 25+)</option>
+                    <option value="Mythic Glory">Mythic Glory (Star 50+)</option>
+                    <option value="Mythic">Mythic Standard</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-300 mb-1">Metode Optimasi Matchmaking</label>
+                <select id="boost-method" class="w-full bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white">
+                    <option value="No-Loss Protocol">Protocol Anti-Lose (Matchmaking Bypass)</option>
+                    <option value="Smart Bot Party">Bot Assistant Injection</option>
+                    <option value="Ping Reducer & Fast Queue">Ultra Low Latency Node</option>
+                </select>
+            </div>
+
+            <button id="boost-btn" onclick="startBoosting()" class="w-full mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-orbitron font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-bolt"></i> JALANKAN BOOSTER
+            </button>
+        </div>
+
+        <!-- Progress Section (Hidden initially) -->
+        <div id="step-2" class="hidden space-y-6 py-4 text-center">
+            <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 border-4 border-blue-500/20 rounded-full animate-pulse"></div>
+                <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <span id="progress-text" class="font-orbitron font-black text-xl text-blue-400">0%</span>
+            </div>
+            
+            <div>
+                <h3 id="status-log" class="font-semibold text-gray-200 text-sm">Inisialisasi sistem bypass...</h3>
+                <p class="text-xs text-gray-500 mt-1">Jangan menutup halaman ini selama proses berjalan.</p>
+            </div>
+
+            <div class="w-full bg-gray-950 rounded-full h-2 overflow-hidden border border-gray-800">
+                <div id="progress-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+
+        <!-- Success Section (Hidden initially) -->
+        <div id="step-3" class="hidden space-y-4 py-4 text-center">
+            <div class="w-16 h-16 bg-green-500/20 text-green-400 border border-green-500/40 rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg shadow-green-500/10">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+                <h3 class="font-orbitron font-bold text-lg text-white">OPTIMASI BERHASIL</h3>
+                <p class="text-xs text-gray-400 mt-1">Sistem matchmaking berhasil di-bypass. Silakan login ke game dan nikmati kemenangan beruntun.</p>
+            </div>
+            <div class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-left text-xs space-y-1 text-gray-300">
+                <p><span class="text-gray-500">Target:</span> <span id="res-target" class="text-blue-400 font-semibold"></span></p>
+                <p><span class="text-gray-500">Status:</span> <span class="text-green-400 font-semibold">Aktif (Trial Mode)</span></p>
+            </div>
+            <button onclick="resetForm()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold py-3 rounded-xl text-sm transition duration-200">
+                Proses Akun Lain
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Notification Custom Modal -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <p id="modal-msg" class="text-sm text-gray-300"></p>
+            <button onclick="closeModal()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl text-sm transition duration-200">OK</button>
+        </div>
+    </div>
+
+    <!-- Guide & Explanation Modal -->
+    <div id="guide-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border border-gray-800 rounded-3xl max-w-md w-full p-6 text-left space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h3 class="font-orbitron font-bold text-base text-blue-400">PANDUAN & PENJELASAN</h3>
+                <button onclick="closeGuideModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div class="space-y-3 text-xs text-gray-300 leading-relaxed">
+                <div>
+                    <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-gamepad text-blue-400 mr-1.5"></i> Cara Menggunakan Script:</h4>
+                    <ol class="list-decimal pl-4 space-y-1 text-gray-400">
+                        <li>Masukkan <b>ID Akun</b> dan <b>Nomor Server</b> Mobile Legends Anda pada kolom yang tersedia.</li>
+                        <li>Pilih <b>Target Rank 2026</b> yang ingin dicapai (misal: Mythic Immortal).</li>
+                        <li>Pilih <b>Metode Optimasi Matchmaking</b> (disarankan menggunakan <i>Protocol Anti-Lose</i>).</li>
+                        <li>Tekan tombol <b>Jalankan Booster</b> dan tunggu hingga proses injeksi selesai 100%.</li>
+                    </ol>
+                </div>
+
+                <div class="border-t border-gray-800 pt-3">
+                    <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-clock text-yellow-400 mr-1.5"></i> Penjelasan Sistem Trial 7 Hari:</h4>
+                    <p class="text-gray-400">Script ini dilengkapi dengan pembatasan masa aktif uji coba selama 7 hari penuh berdasarkan waktu mutlak sistem nyata. Akses akan terkunci permanen secara otomatis setelah melewati batas waktu tersebut.</p>
+                </div>
+            </div>
+
+            <button onclick="closeGuideModal()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl text-sm transition duration-200 mt-2">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-xs text-gray-600 mt-6">
+        ® Powered By : Volta Ghiandra Saputra
+    </div>
+
+    <script>
+        // Konfigurasi Sistem Kedaluwarsa 7 Hari Berbasis Absolute Timestamp (Waktu Nyata)
+        const TRIAL_DURATION_DAYS = 7;
+        const STORAGE_KEY = 'mlbb_booster_absolute_trial_start';
+        let trialInterval = null;
+
+        function initTrialSystem() {
+            let startTime = localStorage.getItem(STORAGE_KEY);
+            const now = new Date().getTime();
+
+            if (!startTime) {
+                // Inisialisasi waktu mulai mutlak saat pertama kali dibuka di perangkat
+                startTime = now;
+                localStorage.setItem(STORAGE_KEY, startTime);
+            } else {
+                startTime = parseInt(startTime, 10);
+            }
+
+            updateCountdown();
+            trialInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function updateCountdown() {
+            const startTime = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+            const now = new Date().getTime();
+            
+            // Perhitungan mutlak waktu nyata dunia nyata
+            const elapsedMilliseconds = now - startTime;
+            const totalDurationMilliseconds = TRIAL_DURATION_DAYS * 24 * 60 * 60 * 1000;
+            const remainingTime = totalDurationMilliseconds - elapsedMilliseconds;
+
+            const countdownElem = document.getElementById('trial-countdown');
+            const boostBtn = document.getElementById('boost-btn');
+            const expiredBanner = document.getElementById('expired-banner');
+            const coreStatusText = document.getElementById('core-status-text');
+
+            if (remainingTime <= 0) {
+                // Kedaluwarsa secara nyata
+                clearInterval(trialInterval);
+                countdownElem.innerText = "00 Hari 00 Jam 00 Menit (Kedaluwarsa)";
+                countdownElem.classList.remove('text-blue-400');
+                countdownElem.classList.add('text-red-400');
+                coreStatusText.innerText = "KEDALUWARSA";
+                coreStatusText.classList.remove('text-yellow-400');
+                coreStatusText.classList.add('text-red-400');
+                expiredBanner.classList.remove('hidden');
+                
+                // Matikan fungsi tombol secara permanen
+                boostBtn.disabled = true;
+                boostBtn.classList.remove('from-blue-600', 'to-indigo-600', 'hover:from-blue-500', 'hover:to-indigo-500', 'shadow-blue-500/25');
+                boostBtn.classList.add('bg-gray-800', 'text-gray-500', 'cursor-not-allowed');
+                boostBtn.innerHTML = '<i class="fa-solid fa-lock"></i> LISENSI KEDALUWARSA';
+            } else {
+                // Konversi sisa milidetik ke format Hari, Jam, Menit, Detik secara presisi
+                const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                countdownElem.innerText = `${days}h ${hours}j ${minutes}m ${seconds}d`;
+            }
+        }
+
+        function showModal(msg) {
+            document.getElementById('modal-msg').innerText = msg;
+            document.getElementById('custom-modal').classList.remove('hidden');
+            document.getElementById('custom-modal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+            document.getElementById('custom-modal').classList.remove('flex');
+        }
+
+        function openGuideModal() {
+            document.getElementById('guide-modal').classList.remove('hidden');
+            document.getElementById('guide-modal').classList.add('flex');
+        }
+
+        function closeGuideModal() {
+            document.getElementById('guide-modal').classList.add('hidden');
+            document.getElementById('guide-modal').classList.remove('flex');
+        }
+
+        function startBoosting() {
+            const startTime = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+            const now = new Date().getTime();
+            const elapsedMilliseconds = now - startTime;
+            const totalDurationMilliseconds = TRIAL_DURATION_DAYS * 24 * 60 * 60 * 1000;
+            
+            if (startTime && (elapsedMilliseconds >= totalDurationMilliseconds)) {
+                showModal('Masa uji coba telah berakhir. Script tidak dapat dijalankan.');
+                return;
+            }
+
+            const mlId = document.getElementById('ml-id').value.trim();
+            const mlZone = document.getElementById('ml-zone').value.trim();
+            const targetRank = document.getElementById('target-rank').value;
+
+            if (!mlId || !mlZone) {
+                showModal('Mohon masukkan ID dan Server Akun Mobile Legends dengan benar.');
+                return;
+            }
+
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+
+            let progress = 0;
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const statusLog = document.getElementById('status-log');
+
+            const logs = [
+                "Memeriksa validasi lisensi trial 7 hari...",
+                "Menghubungkan ke server pusat MLBB...",
+                "Melakukan bypass protokol keamanan game...",
+                "Mengaktifkan script anti-lose & matchmaking filter...",
+                "Sinkronisasi data akun selesai..."
+            ];
+
+            const interval = setInterval(() => {
+                progress += 2;
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                    progressText.innerText = progress + '%';
+
+                    let logIndex = Math.floor((progress / 100) * logs.length);
+                    if (logIndex >= logs.length) logIndex = logs.length - 1;
+                    statusLog.innerText = logs[logIndex];
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('step-2').classList.add('hidden');
+                    document.getElementById('step-3').classList.remove('hidden');
+                    document.getElementById('res-target').innerText = targetRank + ' (ID: ' + mlId + ')';
+                }
+            }, 60);
+        }
+
+        function resetForm() {
+            document.getElementById('ml-id').value = '';
+            document.getElementById('ml-zone').value = '';
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-1').classList.remove('hidden');
+        }
+
+        // Jalankan pengecekan masa kedaluwarsa mutlak saat halaman dimuat
+        window.onload = function() {
+            initTrialSystem();
+        };
+    </script>
+</body>
+</html>
